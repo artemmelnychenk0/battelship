@@ -1,21 +1,21 @@
 import Ship from "./ship";
 
 test('does it created ship', () => {
-    expect(Ship(5).shipArray).toHaveLength(5)
+    const ship1 = Ship(5)
+    expect(ship1.shipLength).toBe(5)
 })
 
-test('it take X as a hit', () => {
-    const ship1 = Ship(5);
-    expect(ship1.hit(0)).toEqual(['X', , , , ,])
+
+test('does shot get incresase', () => {
+    const sub = Ship(5, 'sub');
+    sub.hit();
+    expect(sub.recordShots()).toBe(1);
 })
 
-test('is ship sunk', () => {
-    const ship1 = Ship(1);
-    ship1.hit(0)
-    ship1.hit(1)
-    expect(ship1.sunk).toBeTruthy();
+test('does ship goes under water', () => {
+    const sub = Ship(2, 'sub');
+    sub.hit();
+    sub.hit();
+    expect(sub.recordShots()).toBe(2);
+    expect(sub.sunk()).toBe(true);
 })
-
-// for (let i = 0; i < length; i++) {
-//     board[position] = shipCell
-// }
