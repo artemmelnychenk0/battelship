@@ -1,23 +1,32 @@
-const Ship = function (length) {
-    const shipArray = Array(length)
+const Ship = function (length, name) {
+    const shipArray = Array(length).fill(null)
     const shipLength = shipArray.length
+
+    let shots = 0
     let underWater = false
 
-    function hit(num) {
-        const mark = 'X';
-        shipArray[num] = mark;
-        return shipArray
+    function hit() {
+        shots++;
+        return 'X'
+    }
+
+    function recordShots() {
+        return shots
     }
 
     function sunk() {
-        let underWater = shipArray.every(e => e = 'X')
-        return underWater
+        if (shipLength == shots) {
+            underWater = true
+            return underWater
+        }
     }
-    return { shipArray, hit, sunk, underWater, shipLength }
+
+    function getName() {
+        return name
+    }
+    return { shipArray, hit, sunk, shipLength, getName, shots, recordShots, underWater }
 
 }
-const ship1 = Ship('1', '4', false, false)
-
 export default Ship
 
 // const Ship = function (length) {
