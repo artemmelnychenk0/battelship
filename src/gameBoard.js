@@ -2,28 +2,40 @@ import Ship from "./ship"
 
 const gameBoard = function () {
 
-    let board = []
-    function createBoard() {
-        for (let i = 0; i < 5; i++) {
-            const boardCell = 'empty';
-            board.push(boardCell)
-        }
-        return board
-    }
-    function placeShip(length, position) {
-        const shipCell = 'ship';
-        for (let i = 0; i < length; i++) {
-            board[position] = shipCell;
+    let board = Array(5).fill('empty')
+    const getBoard = () => board;
+
+    const submarine = Ship(3, 'submarine')
+    const tugboat = Ship(2, 'tugboat')
+    const jets = Ship(1, 'jets')
+
+    const boatArray = [submarine, tugboat, jets]
+
+    function placeShip(ship, position) {
+
+        for (let i = 0; i < ship.shipLength; i++) {
+            board[position] = ship.getName()
+
             position++
         }
-        return board
     }
     function receiveAttack(positionX, positionY) {
-        const attack = 'hit';
-        board[positionX] = attack;
-        return board
+        const missed = 'missed';
+        const found = boatArray.find(e => e.getName() == board[positionX])
+
+        if (found == undefined) {
+            board[positionX] = missed;
+        } else if (board[positionX] === found.getName()) {
+            board[positionX] = found.hit()
+        }
+    };
+    function shipsSunk() {
+        const checked = board.every(e => e != 'submarine' && 'tugboat' && 'jets')
+        return checked
     }
 
-    return { createBoard, board, placeShip, receiveAttack }
+    return { getBoard, board, placeShip, receiveAttack, submarine, tugboat, jets, boatArray, shipsSunk }
 }
 export default gameBoard
+
+
