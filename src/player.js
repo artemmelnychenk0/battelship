@@ -1,15 +1,13 @@
 import gameBoard from "./gameBoard"
 
 const Player = (name) => {
-    const board = gameBoard();
-    const newBoard = () => board.getBoard();
 
     const getName = () => {
         return name
     }
     const isMyTurn = true
 
-    return { newBoard, getName, isMyTurn }
+    return { getName, isMyTurn }
 }
 
 const computer = () => {

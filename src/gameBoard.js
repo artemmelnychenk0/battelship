@@ -2,21 +2,30 @@ import Ship from "./ship"
 
 const gameBoard = function () {
 
-    let board = Array(5).fill('empty')
+    let board = Array(10)
+        .fill('')
+        .map(() => Array(10).fill(''))
     const getBoard = () => board;
 
-    const submarine = Ship(3, 'submarine')
-    const tugboat = Ship(2, 'tugboat')
-    const jets = Ship(1, 'jets')
+    const carrier = Ship(5, 'carri')
+    const battleship = Ship(4, 'battl')
+    const submarine = Ship(3, 'sub')
+    const tugboat = Ship(2, 'tug')
+    const patrol = Ship(2, 'patro')
+    const jet = Ship(1, 'jet')
 
-    const boatArray = [submarine, tugboat, jets]
 
-    function placeShip(ship, position) {
+    const boatArray = [carrier, battleship, submarine, tugboat, patrol, jet]
+
+    function placeShip(ship, y, x, direction) {
 
         for (let i = 0; i < ship.shipLength; i++) {
-            board[position] = ship.getName()
-
-            position++
+            board[y][x] = ship.getName()
+            if (direction === 'horizontal') {
+                x++
+            } else if (direction === 'vertical') {
+                y++
+            }
         }
     }
     function receiveAttack(positionX, positionY) {
@@ -34,7 +43,7 @@ const gameBoard = function () {
         return checked
     }
 
-    return { getBoard, board, placeShip, receiveAttack, submarine, tugboat, jets, boatArray, shipsSunk }
+    return { getBoard, board, placeShip, receiveAttack, submarine, tugboat, jet, battleship, carrier, boatArray, patrol, shipsSunk }
 }
 export default gameBoard
 
