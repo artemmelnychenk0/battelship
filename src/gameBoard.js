@@ -17,34 +17,71 @@ const gameBoard = function () {
 
     const boatArray = [carrier, battleship, submarine, tugboat, patrol, jet]
 
-    function placeShip(ship, y, x, direction) {
+    function placeShip(ship, direction, x, y) {
+        let message = ''
+        if (board[x][y] === '') {
+            for (let i = 0; i < ship.shipLength; i++) {
 
-        for (let i = 0; i < ship.shipLength; i++) {
-            board[y][x] = ship.getName()
-            if (direction === 'horizontal') {
-                x++
-            } else if (direction === 'vertical') {
-                y++
+                board[x][y] = ship.getName()
+                if (direction == 'horizontal') {
+                    y++
+                } else if (direction == 'vertical') {
+                    x++
+                }
             }
-        }
-    }
-    function receiveAttack(positionX, positionY) {
-        const missed = 'missed';
-        const found = boatArray.find(e => e.getName() == board[positionX])
+        } else {
+            message = 'Spot is taken'
+            x++
+            y++
+            console.log(ship.getName())
+            for (let i = 0; i < ship.shipLength; i++) {
 
-        if (found == undefined) {
-            board[positionX] = missed;
-        } else if (board[positionX] === found.getName()) {
-            board[positionX] = found.hit()
+                board[x][y] = ship.getName()
+                if (direction == 'horizontal') {
+                    y++
+                } else if (direction == 'vertical') {
+                    x++
+                }
+            }
+
         }
+        return message
+
+    }
+
+    function receiveAttack(positionX, positionY) {
+        let illegalShot = false
+        const found = boatArray.find(e => e.getName() == board[positionX][positionY])
+        //problem
+        if (found === undefined && board[positionX][positionY] != 'missed' && board[positionX][positionY] != 'X') {
+            board[positionX][positionY] = 'missed';
+
+
+        } else if (found !== undefined && board[positionX][positionY] != 'missed' && board[positionX][positionY] != found.hit()) {
+            board[positionX][positionY] = found.hit();
+
+
+        } else {
+            illegalShot = true
+            console.log('Idiot')
+        }
+        return illegalShot
+
     };
+
     function shipsSunk() {
-        const checked = board.every(e => e != 'submarine' && 'tugboat' && 'jets')
-        return checked
+        let allShips = false
+        const resultArray = []
+        for (let i = 0; i < board.length; i++) {
+            const result = board[i].every(e => e != 'jet' && 'submarine' && 'tugboat' && 'carrier' && 'battleship' && 'patrol')
+            resultArray.push(result)
+        }
+        if (resultArray.every(e => e == true)) {
+            allShips = true
+            return allShips
+        }
     }
 
     return { getBoard, board, placeShip, receiveAttack, submarine, tugboat, jet, battleship, carrier, boatArray, patrol, shipsSunk }
 }
 export default gameBoard
-
-
