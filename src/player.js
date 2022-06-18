@@ -14,17 +14,37 @@ const computer = () => {
     const board = gameBoard();
     const computerBoard = () => board.getBoard()
 
-    const randomShot = (min, max) => {
-        min = Math.ceil(min);
-        max = Math.floor(max)
-        return Math.floor(Math.random() * (max - min) + min);
+    const randomShotY = () => {
+        let result = Math.floor(Math.random() * 10)
+        return result
     }
+    const randomShotX = () => {
+        let result = Math.floor(Math.random() * 10)
+        return result
+    }
+
+    const randomizer = () => {
+        let orientation = ['vertical', 'horizontal']
+        let randomItem = orientation[Math.floor(Math.random() * orientation.length)];
+        let coordX
+        let coordY
+        if (randomItem == 'vertical') {
+            coordX = Math.floor(Math.random() * 6)
+            coordY = Math.floor(Math.random() * 10)
+
+        } else {
+            coordX = Math.floor(Math.random() * 10)
+            coordY = Math.floor(Math.random() * 6)
+        }
+        return { coordX, coordY, randomItem }
+    }
+
 
     //should  not shot at the same spot
 
 
 
-    return { computerBoard, randomShot }
+    return { computerBoard, randomShotY, randomShotX, randomizer }
 
 }
 export { Player, computer }

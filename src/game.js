@@ -9,10 +9,10 @@ const newGame = () => {
     // const ai = computer();
     //create Boards
     const board4Player = playerBoard.getBoard();
-    const playerShot = playerBoard.receiveAttack()
+    // const playerShot = playerBoard.receiveAttack()
 
     const board4AI = computerBoard.getBoard();
-    console.log(board4Player)
+
     // place Ships
     const playerShips =
         playerBoard.placeShip(playerBoard.carrier, 3, 0, 'vertical')
@@ -37,5 +37,4 @@ const newGame = () => {
 }
 
 export default newGame;
-
 
