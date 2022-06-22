@@ -17,37 +17,37 @@ const gameBoard = function () {
 
     const boatArray = [carrier, battleship, submarine, tugboat, patrol, jet]
 
-    function placeShip(ship, direction, x, y) {
-        let message = ''
-        if (board[x][y] === '') {
-            for (let i = 0; i < ship.shipLength; i++) {
-
-                board[x][y] = ship.getName()
-                if (direction == 'horizontal') {
-                    y++
-                } else if (direction == 'vertical') {
-                    x++
-                }
-            }
-        } else {
-            message = 'Spot is taken'
-            x++
-            y++
-            console.log(ship.getName())
-            for (let i = 0; i < ship.shipLength; i++) {
-
-                board[x][y] = ship.getName()
-                if (direction == 'horizontal') {
-                    y++
-                } else if (direction == 'vertical') {
-                    x++
-                }
-            }
-
+    //check if fits inside the board
+    let validPlacement = false
+    const shipFit = (ship, direction, x, y) => {
+        if (direction == 'horizontal' && board[x][y] === '') {
+            if (Number(y) + ship.shipLength <= board.length) {
+                validPlacement = true
+            } else validPlacement = false
+        } else if (direction == 'vertical' && board[x][y] === '') {
+            if (Number(x) + ship.shipLength <= board.length) {
+                validPlacement = true
+            } else validPlacement = false
         }
-        return message
+        return validPlacement
+    };
+
+    function placeShip(ship, direction, x, y) {
+        shipFit(ship, direction, x, y)
+        if (validPlacement == true) {
+            for (let i = 0; i < ship.shipLength; i++) {
+                board[x][y] = ship.getName()
+                if (direction == 'horizontal') {
+                    y++
+                } else if (direction == 'vertical') {
+                    x++
+                }
+            }
+        } else console.log('not working')
 
     }
+
+
 
     function receiveAttack(positionX, positionY) {
         let illegalShot = false
@@ -82,6 +82,6 @@ const gameBoard = function () {
         }
     }
 
-    return { getBoard, board, placeShip, receiveAttack, submarine, tugboat, jet, battleship, carrier, boatArray, patrol, shipsSunk }
+    return { getBoard, board, placeShip, receiveAttack, submarine, tugboat, jet, battleship, carrier, boatArray, patrol, shipsSunk, validPlacement, shipFit }
 }
 export default gameBoard

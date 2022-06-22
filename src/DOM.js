@@ -8,10 +8,6 @@ const dom = () => {
     const playerSide = document.querySelector('.player')
     const computerSide = document.querySelector('.computer')
 
-    const placeBtn = document.querySelector('.place')
-    const aiBtn = document.querySelector('.computerAttack')
-
-
     const playerBoard = gameBoard();
     const computerBoard = gameBoard();
     const board4Player = playerBoard.getBoard();
@@ -20,6 +16,7 @@ const dom = () => {
     const AI = computer();
 
     //display player board
+    let cell
     const displayPlayer = () => {
         const board = document.createElement('div')
         board.classList.add('board')
@@ -28,13 +25,36 @@ const dom = () => {
             for (let j = 0; j < board4Player.length; j++) {
                 const cell = document.createElement('div')
                 cell.classList.add('cell')
-                cell.appendChild(document.createTextNode(board4Player[i][j]))
-                board.appendChild(cell)
+
+                if (board4Player[i][j] === 'carri' ||
+                    board4Player[i][j] === 'battl' ||
+                    board4Player[i][j] === 'sub' ||
+                    board4Player[i][j] === 'patro' ||
+                    board4Player[i][j] === 'tug' ||
+                    board4Player[i][j] === 'jet') {
+                    cell.classList.add('ship')
+                    cell.appendChild(document.createTextNode(''))
+                    cell.setAttribute('x', i.toString());
+                    cell.setAttribute('y', j.toString())
+                    board.appendChild(cell)
+
+                } else {
+                    if (board4Player[i][j] === 'missed') {
+                        cell.classList.add('missed')
+                    } else if (board4Player[i][j] === 'X') {
+                        cell.classList.add('hit')
+                    }
+                    cell.appendChild(document.createTextNode(''))
+                    cell.setAttribute('x', i.toString());
+                    cell.setAttribute('y', j.toString())
+                    board.appendChild(cell)
+                }
             }
         }
 
 
         playerSide.appendChild(board)
+        return cell
     }
     displayPlayer()
 
@@ -47,57 +67,71 @@ const dom = () => {
             for (let j = 0; j < board4AI.length; j++) {
                 const cell = document.createElement('div')
                 cell.classList.add('cell')
-                cell.appendChild(document.createTextNode(board4AI[i][j]))
-                cell.setAttribute('x', i.toString());
-                cell.setAttribute('y', j.toString())
-                board.appendChild(cell)
+                if (board4AI[i][j] === 'carri' ||
+                    board4AI[i][j] === 'battl' ||
+                    board4AI[i][j] === 'sub' ||
+                    board4AI[i][j] === 'patro' ||
+                    board4AI[i][j] === 'tug' ||
+                    board4AI[i][j] === 'jet') {
+
+                    cell.appendChild(document.createTextNode(''))
+
+                    cell.setAttribute('x', i.toString());
+                    cell.setAttribute('y', j.toString())
+                    board.appendChild(cell)
+
+                } else {
+                    if (board4AI[i][j] === 'missed') {
+                        cell.classList.add('missed')
+                        cell.appendChild(document.createTextNode(''))
+                    } else if (board4AI[i][j] === 'X') {
+                        cell.classList.add('hit')
+                        cell.appendChild(document.createTextNode(''))
+
+                    }
+                    cell.appendChild(document.createTextNode(''))
+                    cell.setAttribute('x', i.toString());
+                    cell.setAttribute('y', j.toString())
+                    board.appendChild(cell)
+                }
             }
         }
 
 
         computerSide.appendChild(board)
     }
-    displayComputer();
 
-    const renderDOM = () => {
-        computerSide.removeChild(computerSide.firstChild)
+
+    const renderDOMPlayer = () => {
         playerSide.removeChild(playerSide.firstChild)
-        displayComputer();
         displayPlayer();
+    }
+
+    const renderDOMAI = () => {
+        computerSide.removeChild(computerSide.firstChild);
+        displayComputer();
     }
 
     //place computer ships & player ships
 
-    placeBtn.addEventListener('click', () => {
-        const playerShips =
-            playerBoard.placeShip(playerBoard.carrier, 'vertical', 3, 0)
-        playerBoard.placeShip(playerBoard.battleship, 'horizontal', 1, 6,)
-        playerBoard.placeShip(playerBoard.submarine, 'vertical', 4, 7)
-        playerBoard.placeShip(playerBoard.tugboat, 'horizontal', 7, 4)
-        playerBoard.placeShip(playerBoard.patrol, 'horizontal', 1, 3)
-        playerBoard.placeShip(playerBoard.jet, 'horizontal', 9, 9)
+    const placeShipAI = () => {
 
-        const coords1 = AI.randomizer()
-        const coords2 = AI.randomizer()
-        const coords3 = AI.randomizer()
-        const coords4 = AI.randomizer()
-        const coords5 = AI.randomizer()
-        const coords6 = AI.randomizer()
-        const computerShips =
+        for (let i = 0; i < 6; i++) {
+            let coords = AI.randomizer()
+
+            computerBoard.placeShip(computerBoard.boatArray[i], coords.randomItem, coords.coordX, coords.coordY)
 
 
-            computerBoard.placeShip(computerBoard.carrier, coords1.randomItem, coords1.coordX, coords1.coordY)
-        computerBoard.placeShip(computerBoard.battleship, coords2.randomItem, coords2.coordX, coords2.coordY)
-        computerBoard.placeShip(computerBoard.submarine, coords3.randomItem, coords3.coordX, coords3.coordY)
-        computerBoard.placeShip(computerBoard.tugboat, coords4.randomItem, coords4.coordX, coords4.coordY)
-        computerBoard.placeShip(computerBoard.patrol, coords5.randomItem, coords5.coordX, coords5.coordY)
-        computerBoard.placeShip(computerBoard.jet, coords6.randomItem, coords6.coordX, coords6.coordY)
+        }
+        console.log(board4AI)
+    }
 
 
 
-        renderDOM()
-    })
 
+
+
+    placeShipAI();
 
 
 
@@ -108,9 +142,10 @@ const dom = () => {
         const shot = e.target.attributes
 
         computerBoard.receiveAttack(shot.x.value, shot.y.value,)
+
         myTurn = false
-        renderDOM()
-        computerAttack();
+        renderDOMAI();
+        setTimeout(computerAttack, 700)
         gameOver();
 
     })
@@ -124,22 +159,60 @@ const dom = () => {
             } else {
                 myTurn = true
             }
-            renderDOM();
+            renderDOMPlayer();
             gameOver();
         }
     }
     //is GameOver
     const gameOver = () => {
-        // computerBoard.shipsSunk();
         if (computerBoard.shipsSunk() == true) {
             alert('Game is OVER')
         }
     }
-    aiBtn.addEventListener('click', () => {
-        AI.randomOrinetation();
-        AI.randomPlacement();
 
+    //dragable
+    let choise
+
+    const btns = document.querySelectorAll('button#ship')
+    const change = document.querySelector('#change')
+
+    let direction = 'horizontal'
+
+    change.addEventListener('click', () => {
+        if (direction == 'horizontal') {
+            direction = 'vertical'
+        } else {
+            direction = 'horizontal'
+        }
     })
+
+    btns.forEach(function (btn) {
+        btn.addEventListener('click', () => {
+            choise = btn.classList
+            btn.style.backgroundColor = 'purple'
+            return choise
+        })
+    })
+
+    let ships = 0
+    playerSide.addEventListener('click', (e) => {
+
+        const spot = e.target.attributes
+        if (choise != '') {
+            playerBoard.placeShip(playerBoard[choise], direction, spot.x.value, spot.y.value)
+
+            choise = ''
+            ships++
+            renderDOMPlayer();
+        }
+        if (ships == 6) {
+            displayComputer()
+            return
+        }
+    })
+
 }
+///
+
 
 export default dom
