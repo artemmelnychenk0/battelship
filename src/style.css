@@ -22,10 +22,26 @@
     text-align: center;
 }
 
-.cell:hover {
+/* .cell:hover {
     background-color: yellow;
-}
+} */
 
 .cell:active {
     background-color: brown;
+}
+
+.hit {
+    background-color: red;
+}
+
+.missed {
+    background-color: blue;
+}
+
+.ship {
+    background-color: orange;
+}
+
+.done {
+    background-color: blueviolet;
 }
