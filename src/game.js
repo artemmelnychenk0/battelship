@@ -3,37 +3,41 @@ import gameBoard from "./gameBoard";
 
 //new game
 const newGame = () => {
-    const playerBoard = gameBoard();
-    const computerBoard = gameBoard();
+    const player1 = gameBoard();
+    const computer1 = gameBoard();
     // const player = Player();
     // const ai = computer();
     //create Boards
-    const board4Player = playerBoard.getBoard();
-    // const playerShot = playerBoard.receiveAttack()
+    const board4Player = player1.getBoard();
+    const board4AI = computer1.getBoard();
 
-    const board4AI = computerBoard.getBoard();
+    //create computer
+    const AI = computer()
 
-    // place Ships
-    const playerShips =
-        playerBoard.placeShip(playerBoard.carrier, 3, 0, 'vertical')
-    playerBoard.placeShip(playerBoard.battleship, 1, 6, 'horizontal')
-    playerBoard.placeShip(playerBoard.submarine, 4, 7, 'vertical')
-    playerBoard.placeShip(playerBoard.tugboat, 7, 4, 'horizontal')
-    playerBoard.placeShip(playerBoard.patrol, 1, 3, 'horizontal')
-    playerBoard.placeShip(playerBoard.jet, 9, 9, 'horizontal')
+    //place ships AI
+    const placeShipAI = () => {
+
+        for (let i = 0; i < 6; i++) {
+            let coords = AI.randomizer()
+            let validator = computer1.shipFit(computer1.boatArray[i], coords.randomItem, coords.coordX, coords.coordY)
+            if (validator == true && board4AI[coords.coordX][coords.coordY] === '') {
+                computer1.placeShip(computer1.boatArray[i], coords.randomItem, coords.coordX, coords.coordY)
+            } else {
+                let coords = AI.randomizer()
+                let validator = computer1.shipFit(computer1.boatArray[i], coords.randomItem, coords.coordX, coords.coordY)
+                if (validator == true && board4AI[coords.coordX][coords.coordY] === '') {
+                    computer1.placeShip(computer1.boatArray[i], coords.randomItem, coords.coordX, coords.coordY)
+                }
+            }
+
+        }
+    }
+    //check if gameOver 
 
 
-    const computerShips = computerBoard.placeShip(computerBoard.jet, 3, 3, 'horizontal')
-    computerBoard.placeShip(playerBoard.carrier, 3, 1, 'vertical')
-    computerBoard.placeShip(playerBoard.battleship, 2, 5, 'horizontal')
-    computerBoard.placeShip(playerBoard.submarine, 4, 7, 'vertical')
-    computerBoard.placeShip(playerBoard.tugboat, 7, 4, 'horizontal')
-    computerBoard.placeShip(playerBoard.patrol, 1, 3, 'horizontal')
 
 
-    //attack the computer
-
-    return { board4Player, board4AI }
+    return { board4Player, board4AI, player1, computer1, AI, placeShipAI }
 }
 
 export default newGame;
