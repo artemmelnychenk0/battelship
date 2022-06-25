@@ -1,6 +1,6 @@
 import newGame from "./game";
 import './style.css';
-import refresh from './assets/refresh.svg'
+import refresh from './assets/refresh1.png'
 
 
 const dom = () => {
