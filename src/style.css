@@ -1,3 +1,18 @@
+.sides {
+    display: flex;
+}
+
+h3 {
+    display: flex;
+    justify-content: center;
+    font-size: 25px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 35px;
+}
+
 .player,
 .computer {
     display: flex;
@@ -11,15 +26,19 @@
 
 .board {
     display: grid;
-    grid-template-columns: repeat(10, 50px);
-    grid-template-rows: repeat(10, 50px);
+    grid-template-columns: repeat(10, 45px);
+    grid-template-rows: repeat(10, 45px);
     margin: 15px;
     box-shadow: 5px 15px 35px rgb(0 0 0 / 25%);
+    /* gap: 5px; */
+
 }
 
 .cell {
     border: 1px solid rgb(31, 31, 31);
-    text-align: center;
+    background-color: rgb(158, 222, 242);
+    opacity: 0.7;
+
 }
 
 /* .cell:hover {
@@ -44,4 +63,48 @@
 
 .done {
     background-color: blueviolet;
+}
+
+.selected {
+    background-color: yellow;
+}
+
+.none {
+    background-color: white;
+}
+
+#change {
+    margin-left: 20px;
+    width: 50px;
+    height: 50px;
+}
+
+.background-image {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: block;
+    background-image: url(assets/ship.jpeg);
+    width: 100%;
+    height: 800px;
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+    opacity: 0.7;
+}
+
+.content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+body {
+    background-color: rgb(186, 186, 186);
 }
