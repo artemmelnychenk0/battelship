@@ -9,7 +9,7 @@ Objectives: use Jest unit tests to develop the classic game of Battleship. Organ
 ### Screenshot
 -----
 
-<img src="./assets/game.png" height="200px">  
+<img src="/assets/game.png" height="200px">  
 
 ### Things I Learned
 -----
