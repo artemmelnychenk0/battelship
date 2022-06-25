@@ -20,11 +20,11 @@ const gameBoard = function () {
     //check if fits inside the board
     let validPlacement = false
     const shipFit = (ship, direction, x, y) => {
-        if (direction == 'horizontal' && board[x][y] === '') {
+        if (direction == 'horizontal') {
             if (Number(y) + ship.shipLength <= board.length) {
                 validPlacement = true
             } else validPlacement = false
-        } else if (direction == 'vertical' && board[x][y] === '') {
+        } else if (direction == 'vertical') {
             if (Number(x) + ship.shipLength <= board.length) {
                 validPlacement = true
             } else validPlacement = false
@@ -43,7 +43,7 @@ const gameBoard = function () {
                     x++
                 }
             }
-        } else console.log('not working')
+        }
 
     }
 
@@ -63,7 +63,6 @@ const gameBoard = function () {
 
         } else {
             illegalShot = true
-            console.log('Idiot')
         }
         return illegalShot
 
